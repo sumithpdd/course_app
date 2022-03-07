@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_unnecessary_containers
+
+import 'package:course_app/components/cards/recentcoursecard.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/sidebar_screen.dart';
+import 'model/course.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +14,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: SidebarScreen(),
+          body: SafeArea(
+            child: Container(
+              child: RecentCourseCard(
+                course: recentCourses[0],
+              ),
+            ),
+          ),
         ));
   }
 }
