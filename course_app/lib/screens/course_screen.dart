@@ -129,8 +129,47 @@ class _CourseScreenState extends State<CourseScreen> {
                             ),
                           ),
                         ),
+                      ),
+                      //Play Button
+                      Padding(
+                        padding: EdgeInsets.only(right: 28.0),
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            top: 12.5,
+                            bottom: 13.5,
+                            left: 20.5,
+                            right: 14.5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: kShadowColor,
+                                blurRadius: 16.0,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          width: 60.0,
+                          height: 60.0,
+                          child: Image.asset('asset/icons/icon-play.png'),
+                        ),
                       )
                     ],
+                  ),
+
+                  //Build the Students Infographic
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 12.0,
+                      left: 28.0,
+                      right: 28.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [],
+                    ),
                   ),
                 ],
               ),
