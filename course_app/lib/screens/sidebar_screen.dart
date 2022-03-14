@@ -40,7 +40,7 @@ class SidebarScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sai Kambampati",
+                    "Sumith Damodaran",
                     style: kHeadlineLabelStyle,
                   ),
                   const SizedBox(height: 4),
