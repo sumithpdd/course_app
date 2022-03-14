@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -6,6 +8,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../constants.dart';
 import '../model/course.dart';
+import 'course_sections_screen.dart';
 
 class CourseScreen extends StatefulWidget {
   const CourseScreen({Key? key, required this.course}) : super(key: key);
@@ -379,171 +382,5 @@ class _CourseScreenState extends State<CourseScreen> {
                 ),
               ),
             )));
-  }
-}
-
-class CourseSectionsScreen extends StatelessWidget {
-  const CourseSectionsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: kBackgroundColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(34.0),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(32.0),
-            decoration: BoxDecoration(
-              color: kCardPopupBackgroundColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(34.0),
-                bottomLeft: Radius.circular(34.0),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: kShadowColor,
-                  offset: Offset(0, 12),
-                  blurRadius: 32.0,
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  "Course Sections",
-                  style: kTitle2Style,
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  "12 sections",
-                  style: kSubtitleStyle,
-                ),
-              ],
-            ),
-          ),
-          CourseSectionList(),
-          SizedBox(height: 32.0),
-        ],
-      ),
-    );
-  }
-}
-
-class CourseSectionCard extends StatelessWidget {
-  const CourseSectionCard({Key? key, required this.course}) : super(key: key);
-  final Course course;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Container(
-        height: 120.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(41.0),
-          gradient: course.background,
-          boxShadow: [
-            BoxShadow(
-              color: course.background.colors[0].withOpacity(0.3),
-              blurRadius: 30.0,
-              offset: Offset(0, 20),
-            ),
-            BoxShadow(
-              color: course.background.colors[1].withOpacity(0.3),
-              blurRadius: 30.0,
-              offset: Offset(0, 20),
-            )
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(41.0),
-          child: Padding(
-            padding: EdgeInsets.only(left: 32.0),
-            child: Stack(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Image.asset(
-                      'asset/illustrations/${course.illustration}',
-                      fit: BoxFit.cover,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            course.courseSubtitle,
-                            style: kCardSubtitleStyle,
-                          ),
-                          SizedBox(
-                            height: 6.0,
-                          ),
-                          Text(
-                            course.courseTitle,
-                            style: kCardTitleStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Spacer(),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CourseSectionList extends StatelessWidget {
-  List<Widget> courseSectionsWidgets() {
-    List<Widget> cards = [];
-    for (var course in courseSections) {
-      cards.add(
-        Padding(
-          padding: EdgeInsets.only(bottom: 20.0),
-          child: CourseSectionCard(
-            course: course,
-          ),
-        ),
-      );
-    }
-    cards.add(
-      Padding(
-        padding: EdgeInsets.only(top: 12.0),
-        child: Text(
-          "No more Sections to view, look\nfor more in our courses",
-          style: kCaptionLabelStyle,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-
-    return cards;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: courseSectionsWidgets(),
-      ),
-    );
   }
 }
