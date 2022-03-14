@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../components/certificate_viewer.dart';
+import '../components/lists/completed_courses_list.dart';
 import '../constants.dart';
+import '../model/course.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -214,6 +217,62 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 32.0,
+                left: 20.0,
+                right: 20.0,
+                bottom: 12.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Certificates",
+                    style: kHeadlineLabelStyle,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "See all",
+                        style: kSearchPlaceholderStyle,
+                      ),
+                      Icon(Icons.chevron_right, color: kSecondaryLabelColor),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            CertificateViewer(),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 20.0,
+                right: 20.0,
+                bottom: 12.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Completed Courses",
+                    style: kHeadlineLabelStyle,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "See all",
+                        style: kSearchPlaceholderStyle,
+                      ),
+                      Icon(Icons.chevron_right, color: kSecondaryLabelColor),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            CompletedCoursesList(),
+            SizedBox(
+              height: 28.0,
             ),
           ],
         ),
