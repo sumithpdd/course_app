@@ -1,6 +1,6 @@
 {
-    "name": "course_app",
-    "short_name": "course_app",
+    "name": "courseapp",
+    "short_name": "courseapp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
