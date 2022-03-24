@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -13,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,14 +159,54 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                    fullscreenDialog: false,
-                                  ),
-                                );
+                              onTap: () async {
+                                try {
+                                  await _auth.signInWithEmailAndPassword(
+                                      email: email!, password: password!);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeScreen(),
+                                      fullscreenDialog: false,
+                                    ),
+                                  );
+                                } on FirebaseAuthException catch (err) {
+                                  if (err.code == "user-not-found") {
+                                    try {
+                                      await _auth
+                                          .createUserWithEmailAndPassword(
+                                              email: email!,
+                                              password: password!)
+                                          .then((user) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(),
+                                            fullscreenDialog: false,
+                                          ),
+                                        );
+                                      });
+                                    } catch (err) {}
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text("Error"),
+                                          content: Text(err.message!),
+                                          actions: [
+                                            FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Ok!"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                }
                               },
                               child: Container(
                                 child: Text(
