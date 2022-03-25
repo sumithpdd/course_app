@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,20 @@ class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
   final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  Future<void> createNewUserData() async {
+    _firestore.collection('users').doc(_auth.currentUser?.uid).set({
+      'name': 'User',
+      'uid': _auth.currentUser?.uid,
+      'bio': 'Design+Code student',
+      'completed': [],
+      'recents': [],
+      'badges': [],
+      'certificates': [],
+      'profilePic': ''
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       onChanged: (textEntered) {
                                         email = textEntered;
-                                        print(email);
                                       },
                                     ),
                                   ),
@@ -144,7 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       onChanged: (textEntered) {
                                         password = textEntered;
-                                        print(password);
                                       },
                                     ),
                                   )
@@ -179,6 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               password: password!)
                                           .then((user) {
                                         user.user!.sendEmailVerification();
+                                        createNewUserData();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

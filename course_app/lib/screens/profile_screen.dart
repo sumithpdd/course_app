@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,14 +10,44 @@ import '../components/lists/completed_courses_list.dart';
 import '../constants.dart';
 import '../model/course.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final List<String> badges = [
     'badge-01.png',
     'badge-02.png',
     'badge-03.png',
     'badge-04.png',
   ];
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+
+  var name = "Loading...";
+  var bio = "Loading...";
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  void loadUserData() {
+    _firestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      setState(() {
+        name = snapshot.data()!["name"];
+        bio = snapshot.data()!["bio"];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,12 +173,12 @@ class ProfileScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Sumith Damodaran",
+                                    "${name}",
                                     style: kTitle2Style,
                                   ),
                                   SizedBox(height: 8.0),
                                   Text(
-                                    "Flutter Developer",
+                                    "${bio}",
                                     style: kSecondaryCalloutLabelStyle,
                                   ),
                                 ],
