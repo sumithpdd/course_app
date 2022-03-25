@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:courseapp/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/home_screen.dart';
@@ -21,7 +22,9 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: LoginScreen(),
+            home: (FirebaseAuth.instance.currentUser == null)
+                ? LoginScreen()
+                : HomeScreen(),
           );
         } else {
           return MaterialApp(
