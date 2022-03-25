@@ -20,3 +20,4 @@ doc/api/
 *.js.deps
 *.js.map
 course_app/android/app/google-services.json
+course_app/ios/Runner/GoogleService-Info.plist
