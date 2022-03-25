@@ -48,6 +48,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  void updateUserData() {
+    _firestore.collection("users").doc(_auth.currentUser!.uid).update({
+      'name': name,
+      'bio': bio,
+    }).then((value) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Success!"),
+              content: Text("The profile data has been updated!"),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("OK!"))
+              ],
+            );
+          });
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Uh-Oh!"),
+              content: Text("$err"),
+              actions: [
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Try Again!"),
+                )
+              ],
+            );
+          });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,25 +148,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             "Profile",
                             style: kCalloutLabelStyle,
                           ),
-                          Container(
-                            width: 40.0,
-                            height: 40.0,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(14.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: kShadowColor,
-                                  offset: Offset(0, 12),
-                                  blurRadius: 32.0,
-                                )
-                              ],
-                            ),
-                            child: Icon(
-                              Platform.isAndroid
-                                  ? Icons.settings
-                                  : CupertinoIcons.settings_solid,
-                              color: kSecondaryLabelColor,
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text("Update Your Profile"),
+                                      content: Column(
+                                        children: [
+                                          TextField(
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                name = newValue;
+                                              });
+                                            },
+                                            controller: TextEditingController(
+                                                text: name),
+                                          ),
+                                          TextField(
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                bio = newValue;
+                                              });
+                                            },
+                                            controller: TextEditingController(
+                                                text: bio),
+                                          )
+                                        ],
+                                      ),
+                                      actions: [
+                                        FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              updateUserData();
+                                            },
+                                            child: Text("Update!"))
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kShadowColor,
+                                    offset: Offset(0, 12),
+                                    blurRadius: 32.0,
+                                  )
+                                ],
+                              ),
+                              child: Icon(
+                                Platform.isAndroid
+                                    ? Icons.edit
+                                    : CupertinoIcons.pencil,
+                                color: kSecondaryLabelColor,
+                              ),
                             ),
                           ),
                         ],
